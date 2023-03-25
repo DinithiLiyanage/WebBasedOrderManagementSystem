@@ -81,12 +81,40 @@ switch($status)
         }
         
         break;
+    case "changeUserDetails":
+        $userId = $_POST["user_id"];
+        $fname = $_POST["firstname"];
+        $lname = $_POST["lastname"];
+        $email = $_POST["username"];
+        $cno1 = $_POST["cno1"];
+        $cno2 = $_POST["cno2"];
+        $dob = $_POST["dob"];
+        $nic = $_POST["nic"];
+        $role = $_POST["user_role"];
+        
+        
+            $profileResult = $userObj->changeUserDetails($user_id, $fname, $lname, $email, $dob, $cno1, $cno2, $nic, $role );
+            
+            ?>
+                <Script> window.location= "../view/my_view_details.php" </script> 
+            <?php
+        break;
+        
     default:
         ?>
     <script>"../view/my_user_login.php"</script>
         <?php
     break;
 
+}
+if(isset($_GET["remove"])){
+    $user_id = $_GET["remove"];
+    $deleteUserResult = $userObj ->deleteUserRecord($user_id);
+    $arrlen = count($_SESSION["cart"]);
+    
+    ?>
+    <script>window.location="../view/my_view_details.php"</script>
+    <?php
 }
 
         

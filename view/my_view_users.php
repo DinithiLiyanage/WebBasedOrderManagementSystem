@@ -27,8 +27,6 @@ $getUserResult = $userObj ->getAllUsers();
             ?>
             
 
-
-        
             <div class="row">
                 <div class="col-md-3">
                     <?php
@@ -43,7 +41,7 @@ $getUserResult = $userObj ->getAllUsers();
                                 <th>User Last Name</th>
                                 <th>User Email</th>
                                 <th>User Role</th>
-                                <th>User Status</th>
+                                <th>Login Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,9 +55,9 @@ $getUserResult = $userObj ->getAllUsers();
                                 <td><?php echo $userrow["user_lname"];?></td>
                                 <td><?php echo $userrow["user_email"];?></td>
                                 <td><?php echo $userrow["role_name"];?></td>
-                                <td <?php if($userrow["user_status"]==1){?> class="success" <?php } ?> >
+                                <td <?php if($userrow["login_status"]==1){?> class="success" <?php } ?> >
                                     <?php
-                                    if($userrow["user_status"]==1)
+                                    if($userrow["login_status"]==1)
                                     {
                                     ?>
                                     Active
@@ -81,7 +79,7 @@ $getUserResult = $userObj ->getAllUsers();
                     </table>
                     <div class="row">
                         <div class="col-md-3">
-                            <a href="my_generate-user-report.php" class="btn btn-success">
+                            <a href="my_generate_user_report.php" class="btn btn-success">
                                 Generate User Report
                             </a>
                         </div>
@@ -105,23 +103,6 @@ $getUserResult = $userObj ->getAllUsers();
             $(#usertable).DataTable();
         });
     </script>
+    <script src="../js/my_logout.js" type="text/javascript"></script>
     
-                                 
-                                
-                            
-                        
-                        
-                    
-            
-        
-        
-            
-     
-
-
-
-
-
-        </div>
-    </body>
 </html>

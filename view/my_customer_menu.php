@@ -15,6 +15,7 @@
         include '../includes/my_css_includes.php';
         ?>
         <style>
+        
                 /* Style the tab */
         .tab {
           overflow: hidden;
@@ -75,7 +76,9 @@
                     while($menu_row = $menuResult->fetch_assoc())
                     {
                 ?>
-                <button class="tablinks" onclick="openItem(event, '<?php echo $menu_row["cat_name"]; ?>')"><?php echo $menu_row["cat_name"]; ?></button>
+                <button class="tablinks" onclick="openItem(event, '<?php echo $menu_row["cat_name"]; ?>')">
+                    <?php echo $menu_row["cat_name"]; ?>
+                </button>
                 <?php
                     }
                 ?>       
@@ -86,12 +89,13 @@
             
             <!-- Tab content -->
             <div id="RICE" class="tabcontent">
-                
+                        
                         <?php
                             $itemResult1 = $menuObj ->getAllItems(1);
                             while($item_row1 = $itemResult1->fetch_assoc())
                             {
                         ?>
+                            
                             <a href="../view/my_menu_item.php?msg=<?php echo $item_row1["item_id"]; ?>">
                                 <div class= "col-md-offset-1 col-md-3 panel" style="border: 1px solid silver; padding: 5px; height: 210px; color: #808080;">
                                     
@@ -105,10 +109,12 @@
                                     <p>Rs.<?php echo $item_row1["regular_price"]; ?></p>
                                 </div>
                             </a>
+                        
                         <?php
                             }
                 
-                        ?>    
+                            ?>
+                          
                         &nbsp;
                 
             </div>
@@ -214,13 +220,30 @@
             </div>
             
             <div id="Promos" class="tabcontent">
-              <h3>Tokyo</h3>
-              <p>Tokyo is the capital of Japan.</p>
+                <div class="row">
+                    <div class="col-md-12 col-md-offset-0">
+                                <?php
+                                $promoResult = $menuObj ->getAllPromos();
+                                while($promoRow = $promoResult -> fetch_assoc())
+                                {
+                                ?>
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <img src="../images/promo/<?php echo $promoRow["promo_image"]; ?>" align="left" width="200px" height="120px" style="margin-left: 20px; padding-right: 20px;"/>
+                                            <h3 class="h3" style="font-weight: bold; "><?php echo $promoRow["promo_heading"]; ?></h3>
+                                            <p><?php echo $promoRow["promo_descript"]; ?></p>
+                                            <p><small class="text-muted">*Terms and conditions apply</small></p>
+                                        </div> 
+                                    </div>
+                                </div>
+                                <?php
+                                }
+                                ?>
+                    </div>
+                </div>
             </div>
             
-            
-            
-                         
         </div>                            
     </body>
     <script src="../js/jquery-1.12.4.js"></script>

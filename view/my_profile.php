@@ -1,9 +1,14 @@
 <?php
     include '../commons/my_session.php';
     include '../model/my_user_model.php';
+    include '../model/my_order_model.php';
     $userObj = new my_user_model();
     $detailResult = $userObj ->getUserDetails($_SESSION["user"]["user_id"]);
     $detailRow = $detailResult ->fetch_assoc();
+    
+    $orderObj = new my_order_model();
+    $orderResult = $orderObj -> getOrders($_SESSION["user"]["user_id"]);
+    
 ?> 
 
 <html>
@@ -52,7 +57,6 @@
           border-top: none;
           height: 100%;
         }
-        
         </style>
         
     </head>
@@ -72,7 +76,7 @@
                 <?php
                 if($_SESSION["user"]["role_id"]== 1){ ?>
                     <button class="tablinks" onclick="openItem(event, 'My orders')" >My Orders</button>
-                    <button class="tablinks" onclick="openItem(event, 'My payments')" >My Payments</button>
+                    
                 <?php
                 }
                 ?>
@@ -157,17 +161,7 @@
                                             <input type="text" class="form-control" name="username" id="username" value="<?php echo $detailRow["user_email"]; ?>" >
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">&nbsp;</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-5 ">
-                                            <label class="control-label">Address:</label>
-                                        </div> 
-                                        <div class="col-md-5">
-                                            <input type="text" class="form-control" name="address" id="address" value="<?php echo $detailRow["user_address"]; ?>" >
-                                        </div>
-                                    </div>
+                                    
                                     <div class="row">
                                         <div class="col-md-12">&nbsp;</div>
                                     </div>
@@ -193,8 +187,6 @@
                     </div>
                 </div>
             </div>
-                
-            
             <div id="My password" class="tabcontent">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-1">
@@ -267,20 +259,105 @@
                     </div>
                 </div> 
             </div>
-            <?php
-            if($_SESSION["user"]["role_id"]== 1){ ?>
-                <div id="My orders" class="tabcontent">
-                    <h3>Tokyo</h3>
-                    <p>Tokyo is the capital of Japan.</p>
-                </div>
-                <div id="My payments" class="tabcontent">
-                    <h3>Tokyo</h3>
-                    <p>Tokyo is the capital of Japan.</p>
-                </div>
+        <?php
+        if($_SESSION["user"]["role_id"]== 1){ ?>
+            <div id="My orders" class="tabcontent">
+                    <div class="row">
+                        <div class="col-md-12 col-md-offset-0">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                        <h4 class="h4" style="color: black;">Order History</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <?php 
+                                    while($orderRow = $orderResult -> fetch_assoc())
+                                    {
+                                        if($orderRow["completion_status"] != 1){
+                                    ?>
+                                    <div class="row">
+                                        <div class="col-md-12 col-md-offset-0">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <?php
+                                                    if ($orderRow["pickup_status"] == 1) {
+                                                    ?>
+                                                    <div class="progress" style="height: 6% " >
+                                                        <div class="progress-bar progress-bar-success progress-bar-striped active" 
+                                                             role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" 
+                                                             style="width:75%; font-size: 15px;">
+                                                            On the way
+                                                        </div>
+                                                    </div>
+
+                                                    <?php
+                                                    }
+                                                    elseif ($orderRow["preparation_status"] == 1) {
+                                                    ?>
+                                                    <div class="progress" style="height: 6% " >
+                                                        <div class="progress-bar progress-bar-success progress-bar-striped active" 
+                                                             role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" 
+                                                             style="width:50%; font-size: 15px;">
+                                                            Order Prepared
+                                                        </div>
+                                                    </div>
+
+
+                                                    <?php
+                                                    }
+                                                    else{
+                                                    ?>
+                                                    <div class="progress" style="height: 6% ">
+                                                        <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width:25%; font-size: 15px;">
+                                                                Order approved
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <a href="../view/my_old_orders.php?msg=<?php echo $orderRow["order_id"] ;?>">View more details </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                        <?php
+                                        }
+                                        else{
+                                        ?>
+                                    <div class="row">
+                                        <div class="col-md-12 col-md-offset-0">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <h4 class="h4" style="color: black;"><?php echo $orderRow["payment_date"] ;?></h4>
+                                                    <p> Order ID : <?php echo $orderRow["order_id"] ;?></p>
+                                                    <p> Amount : LKR <?php echo $orderRow["grand_total"] ;?> .00</p>
+                                                    <p> Payment Method : <?php echo $orderRow["pay_method"] ;?></p>
+                                                    <p> Delivery (d)/ In-store Pickup (p) : <?php echo $orderRow["pick_method"] ;?></p>
+                                                    <a href="../view/my_old_orders.php?msg=<?php echo $orderRow["order_id"] ;?>">View more details </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <?php
+                                            }
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
             <?php
             }
             ?>
-        </div>
+        
     </body>
     <script src="../js/jquery-1.12.4.js"></script>
     <script src="../js/my_profile_validations.js" type="text/javascript"></script>

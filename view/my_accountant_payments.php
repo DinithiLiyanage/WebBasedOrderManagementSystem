@@ -8,7 +8,6 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.min.css"/>
-        
     </head>
     <body style="background-color: #F5F5F5; color: #808080;">
         <div class="container-fluid">
@@ -75,7 +74,7 @@
                     </table>
                     <div class="row">
                         <div class="col-md-3">
-                            <a href="my_generate-invoice-report.php" class="btn btn-primary">
+                            <a href="my_generate_invoice_report.php" class="btn btn-primary">
                                 Generate User Report
                             </a>
                         </div>
@@ -85,7 +84,18 @@
             </div>
         </div>
     </body>
-    <script src="../js/jquery-1.12.4.js"></script>
+    <script src="../js/datatable/jquery.dataTables.min.js"></script>
+    
+    <!-- include bootstrap js -->
+    <script src="../js/datatable/dataTables.bootstrap.min.js"></script>
+    
+    <script src="../js/datatable/jquery-3.5.1.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script>
+        $document.ready(function(){
+            $(#invoicetable).DataTable();
+        });
+    </script>
     <script src="../js/my_logout.js" type="text/javascript"></script>
-    <script src="../bootstrap/css/bootstrap.min.js" type="text/javascript"></script>
+    
 </html>

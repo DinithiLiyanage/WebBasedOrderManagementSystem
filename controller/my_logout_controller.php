@@ -6,7 +6,7 @@
     $loginObj = new my_login_model();
     $menuObj = new my_menu_model();
     $loginResult = $loginObj ->UserLogout($_SESSION["user"]["email"]);
-    $deletecartResult = $menuObj ->deletecart($_SESSION["user"]["user_id"]);
+    $cartStatus = $menuObj ->deletecart($user_id);
     session_destroy();
     header("location: ../view/my_user_login.php");
 

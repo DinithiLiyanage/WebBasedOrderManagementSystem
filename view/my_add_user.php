@@ -34,7 +34,7 @@
                     
                     <div class="row">
                         <div class="col-md-12">
-                            <h4 class="h4" style="color: black">Sign into Account</h4>
+                            <h4 class="h4" style="color: black">Add New User Account</h4>
                             <div id="alertmsg"></div>
                             <?php
                                     if(isset($_GET["msg"]))

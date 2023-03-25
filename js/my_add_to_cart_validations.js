@@ -21,7 +21,6 @@ $(document).ready(function(){
         
         var url = "../controller/my_menu_controller.php?status=additemtocart";
         
-        
         $.post(url, {
                     item_id:item_id, 
                     user_id:user_id, 

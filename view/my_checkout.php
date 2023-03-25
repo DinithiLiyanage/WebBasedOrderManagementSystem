@@ -90,7 +90,7 @@
                                                             <label class="control-label">Address:</label>
                                                         </div> 
                                                         <div class="col-md-6">
-                                                            <input type="text" class="form-control" name="d_address" id="d_address" value="<?php echo $detailRow["user_address"]; ?>" >
+                                                            <input type="text" class="form-control" name="d_address" id="d_address" value="" >
                                                         </div>
                                                     </div>
                                                     

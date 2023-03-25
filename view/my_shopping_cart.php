@@ -45,7 +45,7 @@
                             <tr>
                                 <td><img src="../images/menu/<?php echo $cartrow["item_image"]; ?>" width="50px" height='50px' style="margin-left: 50px;"></td>
                                 <td><?php echo $cartrow["item_name"];?>
-                                    <a href="../view/my_menu_item.php?msg=<?php echo $cartrow["item_id"];?>">
+                                    <a href="../view/my_menu_item_edit.php?msg=<?php echo $cartrow["item_id"];?>">
                                         <button type="button"  class="btn btn-default btn-sm" style="float: right;">
                                             Edit  
                                         </button></a>
@@ -128,7 +128,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="col-md-6">
-                            <a href="../view/my_dashboard.php">
+                            <a href="../view/my_customer_menu.php">
                                 <button class="btn btn-block btn-light" style="background-color: #C0C0C0; color: #FFF;">< Continue Shopping</button></a>
                         </div>
                         <div class="col-md-6">

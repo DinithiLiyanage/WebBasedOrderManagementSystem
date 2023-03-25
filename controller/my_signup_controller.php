@@ -69,7 +69,7 @@ switch($status)
             $pwrd = sha1($password);
             $addLoginResult = $signupObj->addLogin($email, $pwrd);
             ?>
-                <Script> window.location= "../view/my_dashboard.php" </script> 
+                <Script> window.location= "../view/my_user_login.php" </script> 
             <?php
             
         

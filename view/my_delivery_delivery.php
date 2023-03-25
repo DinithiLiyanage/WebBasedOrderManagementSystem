@@ -2,7 +2,7 @@
     include '../commons/my_session.php';
     include '../model/my_order_model.php';
     $orderObj = new my_order_model();
-    $getPaymentResults = $orderObj ->getPaymentDetails();
+    $getDeliveryResults = $orderObj ->getDeliveries($_SESSION["user"]["user_id"]);
     
 ?>
 <html>
@@ -25,61 +25,84 @@
                     <table class="table " id="invoicetable">
                         <thead>
                             <tr>
-                                <th>User ID</th>
-                                <th>User Name</th>
-                                <th>Invoice Date</th>
                                 <th>Order ID</th>
-                                <th>Payment Method</th>
-                                <th>Amount</th>
-                                <th>Approval Status</th>
+                                <th>Date</th>
+                                <th>Customer Name</th>
+                                <th>Delivery Address</th>
+                                <th>City</th>
+                                <th>Contact Number</th>
+                                <th>Acceptance Status</th>
+                                <th>Completion Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                while($getPaymentRow = $getPaymentResults->fetch_assoc())
+                                while($getDeliveryRow = $getDeliveryResults->fetch_assoc())
                                 {
-                                    
+                                    if($getDeliveryRow["approval_status"] == 1)
+                                    {
+                                        
                             ?>
                             <tr>
-                                <td><?php echo $getPaymentRow["user_id"];?></td>
-                                <td><?php echo $getPaymentRow["fname"],' ',$getPaymentRow["lname"];?></td>
-                                <td><?php echo $getPaymentRow["payment_date"];?></td>
-                                <td><?php echo $getPaymentRow["order_id"];?></td>
-                                <td><?php echo $getPaymentRow["pay_method"];?></td>
-                                <td>LKR <?php echo number_format($getPaymentRow["grand_total"]);?></td>
-                                <td <?php if($getPaymentRow["approval_status"]==1){?> class="success" <?php } ?> >
+                                <td><?php echo $getDeliveryRow["order_id"];?></td>
+                                <td><?php echo $getDeliveryRow["payment_date"];?></td>
+                                <td><?php echo $getDeliveryRow["fname"],' ',$getDeliveryRow["lname"];?></td>
+                                <td><?php echo $getDeliveryRow["d_address"];?></td>
+                                <td><?php echo $getDeliveryRow["d_city"];?></td>
+                                <td><?php echo $getDeliveryRow["d_cno1"];?></td>
+                                <td <?php if($getDeliveryRow["acceptance_status"]==1){?> class="success" <?php } ?> >
+                                    
                                     <?php
-                                    if($getPaymentRow["approval_status"]==1)
+                                    if($getDeliveryRow["acceptance_status"]==1)
                                     {
                                     ?>
-                                    Approved
+                                    Accepted
                                     <?php
                                     }
                                     else{
                                         ?>
-                                        Pending
-                                        <a href="../controller/my_payment_controller.php?approveorder=<?php echo $getPaymentRow["order_id"];?>" class="approveorder" >
-                                        <button type="button"  class="btn btn-default btn-success" style="text-align: center;">
-                                            Approve
-                                        </button></a>
+                                        
+                                        <form action="../controller/my_delivery_controller.php?status=accept" method="post">
+                                            <input type="hidden" id="delivery_id" name="delivery_id" value="<?php echo $getDeliveryRow["delivery_id"];?>">
+                                            
+                                            <button type="submit" style="display: inline-block;" class="btn btn-success">Accept</button>
+                                        </form>
                                         <?php
                                     }
                                     ?>
                                 </td>
+                                
+                                <td <?php if($getDeliveryRow["completion_status"]==1 && $getDeliveryRow["pickup_status"]==1){?> class="success" <?php } ?> >
+                                    
+                                    <?php
+                                    if($getDeliveryRow["completion_status"]==1 && $getDeliveryRow["pickup_status"]==1)
+                                    {
+                                    ?>
+                                    Completed
+                                    <?php
+                                    }
+                                    else{
+                                        ?>
+                                        <form action="../controller/my_delivery_controller.php?status=complete" method="post">
+                                            <input type="hidden" id="delivery_id" name="delivery_id" value="<?php echo $getDeliveryRow["delivery_id"];?>">
+                                            <input type="hidden" id="order_id" name="order_id" value="<?php echo $getDeliveryRow["order_id"];?>">
+                                            
+                                            <button type="submit" style="display: inline-block;" class="btn btn-success">Complete</button>
+                                        </form>
+                                        <?php
+                                    }
+                                    ?>
+                                </td>
+                                
                             
                             </tr>
                             <?php
+                                    }
                                 }
                             ?>
                         </tbody>
                     </table>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <a href="my_generate-invoice-report.php" class="btn btn-primary">
-                                Generate User Report
-                            </a>
-                        </div>
-                    </div>
+                    
                     
                 </div>
             </div>

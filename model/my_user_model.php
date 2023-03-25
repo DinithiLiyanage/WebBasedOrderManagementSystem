@@ -81,22 +81,22 @@ class my_user_model{
     public function getAllUsers() 
     {
         $conn = $GLOBALS["con"];
-        $sql = "SELECT * FROM user u, role r WHERE u.role_id = r.role_id AND u.role_id > 1";
-        $result = $conn->query($sql);
+        $sql = "SELECT * FROM user u, role r, login l WHERE u.role_id = r.role_id AND l.user_id = u.user_id AND u.role_id > 1 AND u.user_status = 1";
+        $result = $conn->query($sql)  or die(mysqli_error($conn));
         return $result;
     }
     public function getActiveCustomers() 
     {
         $conn = $GLOBALS["con"];
-        $sql = "SELECT COUNT(*) AS Activecount FROM user WHERE user_status = 1 AND role_id = 1";
-        $result = $conn->query($sql);
+        $sql = "SELECT COUNT(*) AS Activecount FROM login WHERE login_status = 1";
+        $result = $conn->query($sql) or die(mysqli_error($conn));
         return $result;
     }
     public function getDeactiveCustomers() 
     {
         $conn = $GLOBALS["con"];
-        $sql = "SELECT COUNT(*) AS Deactivecount FROM user WHERE user_status = 0 AND role_id = 1";
-        $result = $conn->query($sql);
+        $sql = "SELECT COUNT(*) AS Deactivecount FROM login WHERE login_status = 0";
+        $result = $conn->query($sql) or die(mysqli_error($conn));
         return $result;
     }
     public function getDeliveryPpl() 
@@ -107,4 +107,36 @@ class my_user_model{
         return $result;
         
     }
+    public function getUserRecord($user_id) 
+    {
+        $conn = $GLOBALS["con"];
+        $sql = "SELECT * FROM user u, role r WHERE u.user_id = '$user_id' AND u.role_id = r.role_id";
+        $result = $conn->query($sql);
+        return $result;
+    }
+    public function changeUserDetails($user_id, $user_fname,$user_lname,$user_email,$user_dob,$cno1,$cno2,$nic, $role)
+    {
+        $conn = $GLOBALS["con"];
+        $sql = "UPDATE user SET user_fname ='$user_fname',
+                                user_lname ='$user_lname',
+                                user_email ='$user_email',
+                                user_cno1 ='$cno1',
+                                user_cno2 ='$cno2',
+                                user_nic ='$nic',
+                                user_dob ='$user_dob',
+                                role_id ='$role',
+                                 WHERE user_id='$user_id'";
+        $result= $conn->query($sql);
+        return $result;
+    }
+    public function deleteUserRecord($user_id) 
+    {
+        $conn = $GLOBALS["con"];
+        $sql = "UPDATE user SET user_status = 0 WHERE user_id = '$user_id'";
+        $result = $conn->query($sql);
+        return $result;
+    }
+
+        
+    
 }

@@ -33,6 +33,16 @@ switch($status)
             {
                 throw new Exception("Password can't be empty");
             }
+            $patpwrd = "/([a-z]+[A-Z]+[0-9]){8}/";
+            
+            if(!preg_match('/[a-z]/', $new_password) || !preg_match('/[A-Z]/', $new_password) || !preg_match('/[0-9]/', $new_password))
+            {
+                throw new Exception("Password should contain atleast one lowercase, one uppercase and a number");
+            }
+            if (strlen($new_password)<8)
+            {
+                throw new Exception("Password should contain atleast 8 characters");
+            }
             if ($confirm_password=="")
             {
                 throw new Exception("Password can't be empty");

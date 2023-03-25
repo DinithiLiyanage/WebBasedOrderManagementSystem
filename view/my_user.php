@@ -25,7 +25,7 @@ $deActiveUserCount =$deactiverow["Deactivecount"];
                     var data = google.visualization.arrayToDataTable([
                             ['Status', 'Number of Users'],
                             ['Active',     <?php echo $activeUserCount;?>],
-                            ['Eat',       <?php echo $deActiveUserCount;?>],
+                            ['De-active',       <?php echo $deActiveUserCount;?>],
                     ]);
                 var options = {
                     title: 'User Distribution By User Status',
